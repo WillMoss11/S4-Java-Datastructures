@@ -14,39 +14,32 @@ public class Temperature {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        //Step 1: Input for the number of days
-        System.out.print("Enter the number of temperature readings: ");
-        int numTemperatures = scanner.nextInt();
+        // Get the number of days
+        System.out.print("Enter the number of days: ");
+        int numDays = scanner.nextInt();
 
-        //Step 2: Create array to store temperature values
-        double[] temperatures = new double[numTemperatures];
-
-        //Prompt user to enter the temperatures
-        System.out.print("Enter the temperature readings: ");
-        for (int i = 0; i < numTemperatures; i++) {
-            System.out.print("Temperature " + (i + 1) + ": ");
+        // Collect the temperatures
+        double[] temperatures = new double[numDays];
+        double sum = 0;
+        for (int i = 0; i < numDays; i++) {
+            System.out.print("Enter temperature for day " + (i + 1) + ": ");
             temperatures[i] = scanner.nextDouble();
+            sum += temperatures[i];
         }
 
-        //Step 3: Calculate average temperature
-        double total = 0;
-        for (int i = 0; i < numTemperatures; i++) {
-            total += temperatures[i];
-        }
-        double averagetemperature = total / numTemperatures;
+        // Calculate the average temperature
+        double average = sum / numDays;
+        System.out.println("Average temperature: " + average);
 
-        //Step 4: Count how many temperatures are above the average
+        // Count the days above average
         int countAboveAverage = 0;
-        for (int i = 0; i < numTemperatures; i++) {
-            if (temperatures[i] > averagetemperature) {
+        for (double temp : temperatures) {
+            if (temp > average) {
                 countAboveAverage++;
             }
         }
 
-        //Output results
-        System.out.println("The average temperature is " + averagetemperature);
-        System.out.println("Number of temperatures above the average is " + countAboveAverage);
-
-        scanner.close();
+        System.out.println("Number of days above average temperature: " + countAboveAverage);
     }
 }
+
