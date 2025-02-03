@@ -1,13 +1,9 @@
 package Assignments.LinkedList;
 
-import Assignments.UndoRedoManager;
-
 public class SingleLinkedList {
-    public Node head;
-    public Node tail;
-    public int size;
-
-    private UndoRedoManager<SingleLinkedList> undoRedoManager = new UndoRedoManager<>();
+    private Node head;
+    private Node tail;
+    private int size;
 
     public SingleLinkedList() {
         this.head = null;
@@ -15,109 +11,89 @@ public class SingleLinkedList {
         this.size = 0;
     }
 
-    // Create a new linked list with an initial node value
-    public void createLinkedList(int nodeValue) {
-        Node node = new Node();
-        node.value = nodeValue;
-        node.next = null;
-        head = node;
-        tail = node;
-        size = 1;
-
-        undoRedoManager.addState(new SingleLinkedList(this)); // Capture the state
-    }
-
-    // Insert a new node into the linked list
-    public void insertInLinkedList(int nodeValue, int location) {
-        Node node = new Node();
-        node.value = nodeValue;
-
+    public void add(int value, int position) {
+        Node newNode = new Node(value);
         if (head == null) {
-            createLinkedList(nodeValue);
-            return;
-        } else if (location == 0) {
-            node.next = head;
-            head = node;
-        } else if (location >= size) {
-            tail.next = node;
-            tail = node;
+            head = tail = newNode;
+        } else if (position == 0) {
+            newNode.next = head;
+            head = newNode;
+        } else if (position >= size) {
+            tail.next = newNode;
+            tail = newNode;
         } else {
-            Node tempNode = head;
-            int index = 0;
-            while (index < location - 1) {
-                tempNode = tempNode.next;
-                index++;
+            Node temp = head;
+            for (int i = 0; i < position - 1; i++) {
+                temp = temp.next;
             }
-            node.next = tempNode.next;
-            tempNode.next = node;
+            newNode.next = temp.next;
+            temp.next = newNode;
         }
-
         size++;
-        undoRedoManager.addState(new SingleLinkedList(this)); // Capture the state after insertion
     }
 
-    // Traverse the linked list and print it
-    public void traverseLinkedList() {
-        if (head == null) {
-            System.out.println("SLL does not exist");
-        } else {
-            Node tempNode = head;
-            for (int i = 0; i < size; i++) {
-                System.out.print(tempNode.value);
-                if (i != size - 1) {
-                    System.out.print(" -> ");
-                }
-                tempNode = tempNode.next;
-            }
-            System.out.println();
+    public void delete(int position) {
+        if (head == null) { // Case 0: List is empty
+            System.out.println("List is empty.");
+            return;
         }
-    }
 
-    // Undo the last change (insertion or deletion)
-    public void undo() {
-        SingleLinkedList previousState = (SingleLinkedList) undoRedoManager.undo();
-        if (previousState != null) {
-            this.head = previousState.head;
-            this.tail = previousState.tail;
-            this.size = previousState.size;
-        } else {
-            System.out.println("No undo available.");
-        }
-    }
-
-    // Redo the last undone change
-    public void redo() {
-        SingleLinkedList nextState = (SingleLinkedList) undoRedoManager.redo();
-        if (nextState != null) {
-            this.head = nextState.head;
-            this.tail = nextState.tail;
-            this.size = nextState.size;
-        } else {
-            System.out.println("No redo available.");
-        }
-    }
-
-    // Search for a node in the linked list
-    public boolean searchNode(int nodeValue) {
-        if (head != null) {
-            Node tempNode = head;
-            for (int i = 0; i < size; i++) {
-                if (tempNode.value == nodeValue) {
-                    System.out.println("Found the node: " + tempNode.value + " at location: " + i);
-                    return true;
-                }
-                tempNode = tempNode.next;
+        // Case 1: Delete at the beginning (position 0)
+        if (position == 0) {
+            head = head.next;
+            if (head == null) { // If list becomes empty after deletion
+                tail = null;
             }
         }
-        System.out.println("Node not found");
+        // Case 2: Delete at the end (position size - 1)
+        else if (position == size - 1) {
+            Node temp = head;
+            while (temp.next != tail) { // Traverse to the second-last node
+                temp = temp.next;
+            }
+            temp.next = null; // Remove the last node
+            tail = temp; // Update tail to the second-last node
+        }
+        // Case 3: Delete at any other position
+        else {
+            Node prev = head;
+            for (int i = 0; i < position - 1 && prev.next != null; i++) {
+                prev = prev.next; // Traverse to the node just before the one to delete
+            }
+            if (prev.next == null) { // If the position is invalid
+                System.out.println("Invalid position.");
+                return;
+            }
+            prev.next = prev.next.next; // Skip over the node to delete
+            if (prev.next == null) { // If we deleted the last node
+                tail = prev; // Update the tail
+            }
+        }
+        size--; // Decrement size of the list
+    }
+
+    public void display() {
+        Node current = head;
+        while (current != null) {
+            System.out.print(current.data + " -> ");
+            current = current.next;
+        }
+        System.out.println("null");
+    }
+
+    public boolean search(int value) {
+        Node current = head;
+        int index = 0;
+        while (current != null) {
+            if (current.data == value) {
+                System.out.println("Found " + value + " at position " + index);
+                return true;
+            }
+            current = current.next;
+            index++;
+        }
+        System.out.println("Value " + value + " not found.");
         return false;
-    }
-
-    // Copy constructor for saving states
-    public SingleLinkedList(SingleLinkedList other) {
-        this.head = other.head;
-        this.tail = other.tail;
-        this.size = other.size;
     }
 }
 
