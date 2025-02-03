@@ -26,7 +26,7 @@ public class UndoRedoManager<T> {
 
     // Undo operation
     public T undo() {
-        // Check if we can undo (i.e., if we're not already at the first state)
+        // Check if we can undo (If we're not already at the first state)
         if (currentState == null || currentState.prev == null) {
             System.out.println("No more states to undo.");
             return null;
@@ -40,7 +40,7 @@ public class UndoRedoManager<T> {
 
     // Redo operation
     public T redo() {
-        // Check if we can redo (i.e., if there's a next state to go to)
+        // Check if we can redo (If there's a next state to go to)
         if (currentState == null || currentState.next == null) {
             System.out.println("No more states to redo.");
             return null;
