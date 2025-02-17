@@ -39,17 +39,17 @@ public class AnimalShelter {
             shelterQueue = new LinkedList<>();
         }
 
-        // Enqueue operation: Add an animal to the queue
+        // Add an animal to the queue
         public void enqueue(Animal animal) {
             shelterQueue.add(animal);
         }
 
-        // Dequeue operation: Adopt any animal (the oldest one)
+        // Adopt any animal (the oldest one)
         public Animal dequeueAny() {
             return shelterQueue.poll();  // Removes and returns the first animal in the queue
         }
 
-        // Dequeue operation: Adopt the oldest dog
+        // Adopt the oldest dog
         public Animal dequeueDog() {
             // Loop through the queue to find the first dog and remove it
             for (Animal animal : shelterQueue) {
@@ -61,7 +61,7 @@ public class AnimalShelter {
             return null;  // Return null if no dog is available
         }
 
-        // Dequeue operation: Adopt the oldest cat
+        // Adopt the oldest cat
         public Animal dequeueCat() {
             // Loop through the queue to find the first cat and remove it
             for (Animal animal : shelterQueue) {
@@ -82,7 +82,7 @@ public class AnimalShelter {
     // Instance of QueueArray to manage the shelter's animal queue
     private QueueArray shelter;
 
-    // Constructor to initialize the shelter
+    // Initialize the shelter
     public AnimalShelter() {
         shelter = new QueueArray();
     }
@@ -114,7 +114,7 @@ public class AnimalShelter {
         return shelter.size();  // Return the size of the shelter queue
     }
 
-    // Main method to test the shelter's functionality
+    // Main method to test the shelter
     public static void main(String[] args) {
         AnimalShelter shelter = new AnimalShelter();
 

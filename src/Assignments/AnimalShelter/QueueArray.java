@@ -10,7 +10,7 @@ public class QueueArray {
         private String name;  // Name of the animal
         private long arrivalTime;  // Arrival time of the animal to determine adoption order
 
-        // Constructor to initialize the animal
+        // Initialize the animal
         public Animal(String type, String name, long arrivalTime) {
             this.type = type;
             this.name = name;
@@ -32,22 +32,22 @@ public class QueueArray {
 
     private LinkedList<Animal> shelterQueue;  // LinkedList to maintain the queue
 
-    // Constructor to initialize the shelter queue
+    // Initialize the shelter queue
     public QueueArray() {
         shelterQueue = new LinkedList<>();
     }
 
-    // Enqueue operation: Add an animal to the queue
+    // Add an animal to the queue
     public void enqueue(Animal animal) {
         shelterQueue.add(animal);
     }
 
-    // Dequeue operation: Adopt any animal (the oldest one)
+    // Adopt any animal (the oldest one)
     public Animal dequeueAny() {
         return shelterQueue.poll();  // Removes and returns the first animal in the queue
     }
 
-    // Dequeue operation: Adopt the oldest dog
+    // Adopt the oldest dog
     public Animal dequeueDog() {
         // Loop through the queue to find the first dog and remove it
         for (Animal animal : shelterQueue) {
@@ -59,7 +59,7 @@ public class QueueArray {
         return null;  // Return null if no dog is available
     }
 
-    // Dequeue operation: Adopt the oldest cat
+    // Adopt the oldest cat
     public Animal dequeueCat() {
         // Loop through the queue to find the first cat and remove it
         for (Animal animal : shelterQueue) {
@@ -71,7 +71,7 @@ public class QueueArray {
         return null;  // Return null if no cat is available
     }
 
-    // Method to get the current size of the shelter (number of animals)
+    // Get the current size of the shelter (number of animals)
     public int size() {
         return shelterQueue.size();
     }
